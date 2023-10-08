@@ -24,7 +24,7 @@ function P = Load_Parameters()
         % Velocity
         P.V_start = 65; % Initial Velocity (km/h)
         P.V_max = 100; % Largest possible velocity (km/h)
-        P.V_min = 60; % Smallest possible velocity (km/h)
+        P.V_min = 50; % Smallest possible velocity (km/h)
         P.N_V = 10+1; % Number of discretization points for V state
 
         % Time
@@ -40,7 +40,7 @@ function P = Load_Parameters()
         %% General
         % DP Setup Space
         P.S_vec = P.S_start:P.S_step:P.S_final; % Space vector
-        P.S_RW_vec = P.S_start:P.S_RW_Step:P.S_final; % Route/Weather Space Vector
+        P.S_RW_vec = P.S_start:P.S_RW_Step:(P.S_final+P.S_step); % Route/Weather Space Vector
 
         % DP Setup Time (with CS time augmentation)
         P.t_final = P.S_final/P.t_S_divider ; % Time horizon (s) 

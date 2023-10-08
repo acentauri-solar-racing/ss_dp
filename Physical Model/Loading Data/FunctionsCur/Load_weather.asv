@@ -21,11 +21,9 @@ params = table2struct(Load_Parameters());
     frontWind_raw = readtable('frontWind.csv','Delimiter',',');
     airDensity_raw = readtable('airDensity.csv','Delimiter',',');
     temperature_raw = readtable('temperature.csv','Delimiter',',');
-    
-    % Getting weather space and time stamps
-    weather_time_raw = airDensity_raw(2:end,1);
-    weather_cumDist_raw = airDensity_raw(1,2:end);
 
     p = airDensity_raw(2:end,2:end);
+    time = airDensity_raw(2:end,1);
+    cumDist = airDensity_raw(1,2:end);
 
 %end

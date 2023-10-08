@@ -62,7 +62,7 @@ params = table2struct(Load_Parameters());
     % Converting km/h to m/s
     route.maxV = route.maxV/3.6;
 
-    % Adding cumDist due to data type issues
+    % Adding cumDist due t
     route.cumDist = params.S_vec;
 
     % Import Control Stops
