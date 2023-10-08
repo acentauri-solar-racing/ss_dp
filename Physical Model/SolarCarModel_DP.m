@@ -16,7 +16,7 @@ function [dpState, dpCost, dpIsFeasible, dpOutput] = SolarCarModel_DP(dpState, d
 
     % EF_Substeps
     % Calculating E_bat derivative 
-    E_bat_dot = (P_PV(dpState.t,parameters).*parameters.Solar_Sweep_Coef - dpInput.P_mot_el) ./ dpState.V;
+    E_bat_dot = (P_PV(dpState.t,parameters) - dpInput.P_mot_el) ./ dpState.V;
 
     % Calculating E_bat state(k+1)
     dpState.E_bat = dpState.E_bat + E_bat_dot*dpTs/3600;
@@ -45,7 +45,7 @@ function [dpState, dpCost, dpIsFeasible, dpOutput] = SolarCarModel_DP(dpState, d
             CS_Energy = repmat(parameters.CS_E.E,parameters.N_E_bat,1,parameters.N_V,parameters.N_P_mot_el);
             CS_Energy = permute(CS_Energy, [1 3 2 4]);
         end
-        dpState.E_bat = dpState.E_bat + CS_Energy.*parameters.Solar_Sweep_Coef;
+        dpState.E_bat = dpState.E_bat + CS_Energy;
         dpState.t = dpState.t + 1800;
     end
 
@@ -53,10 +53,10 @@ function [dpState, dpCost, dpIsFeasible, dpOutput] = SolarCarModel_DP(dpState, d
     if(parameters.N_E_bat == 1)
         for i = 1:5
             bool = (t_min1 <= parameters.ONS_times(i) & dpState.t > parameters.ONS_times(i));
-            dpState.E_bat = dpState.E_bat + bool * parameters.ONS_E.E(i).*parameters.Solar_Sweep_Coef;
+            dpState.E_bat = dpState.E_bat + bool * parameters.ONS_E.E(i);
         end
     else
-        dpState.E_bat = dpState.E_bat + parameters.ONS_E.E_M.*parameters.Solar_Sweep_Coef;
+        dpState.E_bat = dpState.E_bat + parameters.ONS_E.E_M;
     end
 
     % Preventing battery overload

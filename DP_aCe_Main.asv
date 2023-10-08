@@ -10,24 +10,15 @@ close all
 %% Include Path of idscDPfunction
 addpath(genpath('.\..\'));
 
-%% Loading Parameters
+%% Getting Parameters
 params = table2struct(Load_Parameters());
-
-%% Loading Route
 route.incl = 1;
-route.cumDist = 1;
-route.maxV = 1;
-route.CS = 1;
-
-%% Loading Weather
+route.cumDist
+route.max
 weather.g = 1;
 weather.frontWind = 1;
 weather.airDensity = 1;
 weather.temperature = 1;
-weather.time = 1;
-weather.cumDist =1;
-
-%% Adding Route and Weather to params
 
 %% Adding Simulation model
 OptPrb = dpaProblem('SolarCarModel_DP',params);

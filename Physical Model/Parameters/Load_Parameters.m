@@ -13,6 +13,7 @@ function P = Load_Parameters()
         P.S_start = 0; % Initial distance (m)
         P.S_step = 10000; % Distance step size (m)
         P.S_EF_Step = 200; % Distance step size euler forward (m)
+        P.S_RW_Step = 200; % Subsampled Route/Weather step (m)
         P.S_final = 800000; % Final distance (m)
 
         % Battery
@@ -22,7 +23,7 @@ function P = Load_Parameters()
 
         % Velocity
         P.V_start = 65; % Initial Velocity (km/h)
-        P.V_max = 120; % Largest possible velocity (km/h)
+        P.V_max = 100; % Largest possible velocity (km/h)
         P.V_min = 60; % Smallest possible velocity (km/h)
         P.N_V = 10+1; % Number of discretization points for V state
 
@@ -39,6 +40,7 @@ function P = Load_Parameters()
         %% General
         % DP Setup Space
         P.S_vec = P.S_start:P.S_step:P.S_final; % Space vector
+        P.S_RW_vec = P.S_start:P.S_RW_Step:P.S_final; % Route/Weather Space Vector
 
         % DP Setup Time (with CS time augmentation)
         P.t_final = P.S_final/P.t_S_divider ; % Time horizon (s) 
@@ -48,9 +50,6 @@ function P = Load_Parameters()
         P.N_t = round(P.t_final/P.t_divider+1); % Number of discretization points for t state
         P.t_vec = linspace(P.t_start,P.t_final,P.N_t); % Time vector
         P.t_step = P.t_vec(2) - P.t_vec(1); % Time step size (s)
-
-        % Solar Sweep Coef
-        P.Solar_Sweep_Coef = 1;
 
         % PV Parameters
         P.A_PV = 4; % PV area (m2)

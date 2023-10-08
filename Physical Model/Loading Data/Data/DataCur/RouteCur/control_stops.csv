@@ -1,0 +1,12 @@
+town,location,latitude,longitude,opening,closing,cumDistance,dfIndex,csvIndex
+Darwin,State Square Start Line,-12.4660107,130.8432822,Sunday 22 October / 07:00,Sunday 22 October / 09:00,333.983712323316,6,8
+Katherine,Transport Weighbridge,-14.481386,132.3251603,Sunday 22 October / 11:00,Sunday 22 October / 17:00,322196.660771647,1650,1652
+Dunmarra, Dunmarra Wayside Inn,-16.6796594,133.4126208,Sunday 22 October / 15:00,Monday 23 October / 12:00,633254.310248542,2432,2434
+Tennant Creek,Tennant Creek Weighbridge,-19.6576889,134.1884877,Monday 23 October / 11:00,Tuesday 24 October / 10:00,989215.901344583,3203,3205
+Barrow Creek,Barrow Creek Hotel,-21.5313472,133.8892669,Monday 23 October / 14:00,Tuesday 24 October / 14:00,1212730.3900059,3610,3612
+Alice Springs,Traeger Park,-23.7090616,133.8750197,Tuesday 24 October / 09:00,Wednesday 25 October / 10:00,1496947.85122775,4289,4291
+Erldunda, Erldunda Roadhouse,-25.1975178,133.2006915,Tuesday 24 October / 11:00,Wednesday 25 October / 13:00,1695124.85034891,5104,5106
+Coober Pedy,Coober Pedy Oval,-29.0181075,134.753619,Wednesday 25 October / 08:00,Thursday 26 October / 13:00,2182174.55912026,7243,7245
+Glendambo, Glendambo Outback Resort,-30.969404,135.75052,Wednesday 25 October / 12:00,Thursday 26 October / 17:00,2435083.88800879,8490,8492
+Port Augusta,Central Oval,-32.4924282,137.7716988,Wednesday 25 October / 14:00,Friday 27 October / 16:00,2720677.95243666,9887,9889
+Adelaide, City of Adelaide Finish Line,-34.8542065,138.5440028,Thursday 26 October / 09:00,Saturday 28 October / 14:00,3017750.92162817,11723,11725

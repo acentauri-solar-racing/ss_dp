@@ -1,0 +1,29 @@
+% This code was written with MATLAB R2022b. Errors may occur with other
+% versions
+% Written for the Semester Thesis of Severin Meyer (18-926-857) in FS23
+
+
+%% Initialization:
+clc
+clear
+clearvars
+close all
+
+%% Include Path of idscDPfunction
+addpath(genpath('.\..\'));
+
+%% Loading Parameters
+params = table2struct(Load_Parameters());
+
+%% Main Function
+%function route = Load_route(params)
+    % Import raw route data
+    route_raw = readtable('route_preprocessed.csv');
+    
+    route.incl = interp1(route_raw.cumDistance,route_raw.inclinationSmooth,params.S_start:params.S_EF_Step:params.S_final); %ed??
+    route.cumDist = params.S_start:params.S_EF_Step:params.S_final;
+    route.maxV = 1;
+    route.CS = 1;
+
+   
+%end
