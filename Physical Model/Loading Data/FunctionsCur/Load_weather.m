@@ -64,6 +64,8 @@ params = table2struct(Load_Parameters());
     temperature_RT_raw = cut_to_RT(temperature_raw,Day_Start_indices,Day_End_indices);
 
 %end
+
+% Converts raw weather data tables to race time (RT)
 function table_RT = cut_to_RT(table_raw,Day_Start_indices,Day_End_indices)
     table_RT = [];
     for i = 1:length(Day_Start_indices)
