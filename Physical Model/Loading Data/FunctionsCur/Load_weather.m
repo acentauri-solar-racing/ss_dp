@@ -33,7 +33,7 @@ params = table2struct(Load_Parameters());
     weather_time_raw = G_raw_table(2:end,1);
     weather_cumDist_raw = G_raw_table(1,2:end);
 
-    %% Processing time stamps
+    %% Processing time array
     % Remove the '+09:30' offset
     datetimeStringWithoutOffset = strrep(table2cell(weather_time_raw), '+09:30', '');
 
@@ -54,10 +54,14 @@ params = table2struct(Load_Parameters());
     % Moving weather raw time to race time
     weather_seconds_RT_raw = weather_seconds_raw(Day_Start_indices(1):Day_End_indices(1))-weather_seconds_raw(Day_Start_indices(1));
     for i = 2:length(Day_Start_indices)
-        weather_seconds_RT_raw = [weather_seconds_RT_raw; weather_seconds_raw(Day_Start_indices(i):Day_End_indices(i))-weather_seconds_raw(Day_Start_indices(i))+weather_seconds_RT_raw(end)+1];
+        weather_seconds_RT_raw = [weather_seconds_RT_raw; weather_seconds_raw(Day_Start_indices(i):Day_End_indices(i))-weather_seconds_raw(Day_Start_indices(i))+weather_seconds_RT_raw(end)+0.1];
     end
 
-    ADens = cut_to_RT(airDensity_raw,Day_Start_indices,Day_End_indices);
+    %% Moving weather data to race time (RT) domain
+    G_RT_raw = cut_to_RT(G_raw,Day_Start_indices,Day_End_indices);
+    frontWind_RT_raw = cut_to_RT(frontWind_raw,Day_Start_indices,Day_End_indices);
+    airDensity_RT_raw = cut_to_RT(airDensity_raw,Day_Start_indices,Day_End_indices);
+    temperature_RT_raw = cut_to_RT(temperature_raw,Day_Start_indices,Day_End_indices);
 
 %end
 function table_RT = cut_to_RT(table_raw,Day_Start_indices,Day_End_indices)
