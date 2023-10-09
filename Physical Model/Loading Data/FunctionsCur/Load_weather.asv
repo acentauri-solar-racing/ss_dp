@@ -23,7 +23,7 @@ params = table2struct(Load_Parameters());
     airDensity_raw_table = readtable('airDensity.csv','Delimiter',',');
     temperature_raw_table = readtable('temperature.csv','Delimiter',',');
 
-    % Getting weather data tables
+    % Getting weather data tables by cutting away time and space vectors
     G_raw = G_raw_table(2:end,2:end);
     frontWind_raw = frontWind_raw_table(2:end,2:end);
     airDensity_raw = airDensity_raw_table(2:end,2:end);
@@ -41,25 +41,27 @@ params = table2struct(Load_Parameters());
     datetimeTable = datetime(datetimeStringWithoutOffset,'InputFormat', 'yyyy-MM-dd HH:mm:ss');
 
     % Getting timeofday array
-
     timeofday = timeofday(datetimeTable);
 
-    % finding the first indices of all days in race time (08:00:00)
+    % finding the first and last indices of all days in race time (08:00:00 and 17:00:00)
     Day_Start_indices = find(timeofday == '08:00:00');
-    Day_End_indeces = find(timeofday == '17:00:00');
+    Day_End_indices = find(timeofday == '17:00:00');
 
+    % Getting seconds and time steps
+    weather_seconds_raw = seconds(timeofday);
+    weather_seconds_step_raw = weather_seconds_raw(4)-weather_seconds_raw(3);
 
-
-
-
-    
-%     % Convert the date/time string to a datetime object
-%     dt = datetime(datetimeStringWithoutOffset,'InputFormat', 'yyyy-MM-dd HH:mm:ss');
-%     
-%     % Extract date, time, and seconds
-%     dateComponent = datestr(dt, 'yyyy-mm-dd');  % Extract date in 'yyyy-mm-dd' format
-%     timeComponent = datestr(dt, 'HH:MM:SS');    % Extract time in 'HH:MM:SS' format
-%     secondsComponent = second(dt);              % Extract seconds
-    
+    % Moving weather raw time to race time
+    weather_seconds_RT_raw = weather_seconds_raw(Day_Start_indices(1):Day_End_indices(1))-weather_seconds_raw(Day_Start_indices(1));
+    for i = 2:length(Day_Start_indices)
+        weather_seconds_RT_raw = [weather_seconds_RT_raw; weather_seconds_raw(Day_Start_indices(i):Day_End_indices(i))-weather_seconds_raw(Day_Start_indices(i))+weather_seconds_RT_raw(end)+1];
+    end
 
 %end
+function table_RT = cut_to_RT(table_raw,Day_Start_indices,Day_End_indices)
+    table_RT = [];
+    for i = 1:length(Day_Start_indices)
+        table_RT = [];
+    end
+
+end
