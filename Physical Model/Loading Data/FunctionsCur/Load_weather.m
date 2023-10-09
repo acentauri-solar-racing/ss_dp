@@ -31,7 +31,7 @@ params = table2struct(Load_Parameters());
     
     % Getting weather space and time stamps
     weather_time_raw = G_raw_table(2:end,1);
-    weather_cumDist_raw = G_raw_table(1,2:end);
+    weather_cumDist_raw = table2cell(G_raw_table(1,2:end));
 
     %% Processing time array
     % Remove the '+09:30' offset
@@ -54,7 +54,7 @@ params = table2struct(Load_Parameters());
     % Moving weather raw time to race time
     weather_seconds_RT_raw = weather_seconds_raw(Day_Start_indices(1):Day_End_indices(1))-weather_seconds_raw(Day_Start_indices(1));
     for i = 2:length(Day_Start_indices)
-        weather_seconds_RT_raw = [weather_seconds_RT_raw; weather_seconds_raw(Day_Start_indices(i):Day_End_indices(i))-weather_seconds_raw(Day_Start_indices(i))+weather_seconds_RT_raw(end)+0.1];
+        weather_seconds_RT_raw = [weather_seconds_RT_raw; weather_seconds_raw(Day_Start_indices(i):Day_End_indices(i))-weather_seconds_raw(Day_Start_indices(i))+weather_seconds_RT_raw(end)+1];
     end
 
     %% Moving weather data to race time (RT) domain
@@ -62,6 +62,13 @@ params = table2struct(Load_Parameters());
     frontWind_RT_raw = cut_to_RT(frontWind_raw,Day_Start_indices,Day_End_indices);
     airDensity_RT_raw = cut_to_RT(airDensity_raw,Day_Start_indices,Day_End_indices);
     temperature_RT_raw = cut_to_RT(temperature_raw,Day_Start_indices,Day_End_indices);
+
+    %% Getting data into the DP time and space frame
+    weather_cumDist_raw = cell2mat(weather_cumDist_raw);
+    [oldTimeGrid, oldSpaceGrid] = meshgrid(weather_seconds_RT_raw, weather_cumDist_raw);
+    [newTimeGrid, newSpaceGrid] = meshgrid(params.t_vec, params.S_vec);
+    G_RT_raw = table2array(G_RT_raw);
+    interpolatedData = interp2(oldTimeGrid, oldSpaceGrid, G_RT_raw.', newTimeGrid, newSpaceGrid, 'linear');
 
 %end
 
