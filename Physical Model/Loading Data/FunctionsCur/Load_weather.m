@@ -57,7 +57,7 @@ params = table2struct(Load_Parameters());
         weather_seconds_RT_raw = [weather_seconds_RT_raw; weather_seconds_raw(Day_Start_indices(i):Day_End_indices(i))-weather_seconds_raw(Day_Start_indices(i))+weather_seconds_RT_raw(end)+1];
     end
 
-    AD = cut_to_RT(airDensity_raw,Day_Start_indices,Day_End_indices);
+    ADens = cut_to_RT(airDensity_raw,Day_Start_indices,Day_End_indices);
 
 %end
 function table_RT = cut_to_RT(table_raw,Day_Start_indices,Day_End_indices)
