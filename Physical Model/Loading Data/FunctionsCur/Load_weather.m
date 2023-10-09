@@ -65,10 +65,13 @@ params = table2struct(Load_Parameters());
 
     %% Getting data into the DP time and space frame
     weather_cumDist_raw = cell2mat(weather_cumDist_raw);
-    [oldTimeGrid, oldSpaceGrid] = meshgrid(weather_seconds_RT_raw, weather_cumDist_raw);
-    [newTimeGrid, newSpaceGrid] = meshgrid(params.t_vec, params.S_vec);
-    G_RT_raw = table2array(G_RT_raw);
-    interpolatedData = interp2(oldTimeGrid, oldSpaceGrid, G_RT_raw.', newTimeGrid, newSpaceGrid, 'linear');
+    G_RST = R_ST_interpolation(G_RT_raw, params, weather_seconds_RT_raw, weather_cumDist_raw);
+    frontWind_RST = R_ST_interpolation(frontWind_RT_raw, params, weather_seconds_RT_raw, weather_cumDist_raw);
+    airDensity_RST = R_ST_interpolation(airDensity_RT_raw, params, weather_seconds_RT_raw, weather_cumDist_raw);
+    temperature_RST = R_ST_interpolation(temperature_RT_raw, params, weather_seconds_RT_raw, weather_cumDist_raw);
+    
+
+    
 
 %end
 
@@ -78,4 +81,11 @@ function table_RT = cut_to_RT(table_raw,Day_Start_indices,Day_End_indices)
     for i = 1:length(Day_Start_indices)
         table_RT = [table_RT; table_raw(Day_Start_indices(i):Day_End_indices(i),:)];
     end
+end
+
+function interpolatedData = R_ST_interpolation(data, params, weather_seconds_RT_raw, weather_cumDist_raw)
+    [oldTimeGrid, oldSpaceGrid] = meshgrid(weather_seconds_RT_raw, weather_cumDist_raw);
+    [newTimeGrid, newSpaceGrid] = meshgrid(params.t_vec, params.S_vec);
+    data = table2array(data);
+    interpolatedData = interp2(oldTimeGrid, oldSpaceGrid, data.', newTimeGrid, newSpaceGrid, 'linear');
 end
