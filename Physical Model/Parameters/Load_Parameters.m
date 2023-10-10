@@ -13,7 +13,7 @@ function P = Load_Parameters()
         P.S_start = 0; % Initial distance (m)
         P.S_step = 10000; % Distance step size (m)
         P.S_EF_Step = 200; % Distance step size euler forward (m)
-        P.S_RW_Step = 200; % Subsampled Route/Weather step (m)
+        P.S_RW_Step = 10; % Subsampled Route/Weather step (m)
         P.S_final = 800000; % Final distance (m)
 
         % Battery
@@ -40,7 +40,7 @@ function P = Load_Parameters()
         %% General
         % DP Setup Space
         P.S_vec = P.S_start:P.S_step:P.S_final; % Space vector
-        P.S_RW_vec = P.S_start:P.S_RW_Step:(P.S_final+P.S_step); % Route/Weather Space Vector
+        P.S_RW_vec = P.S_start:P.S_RW_Step:(P.S_final+P.S_step); % Route Space Vector for interpolation
 
         % DP Setup Time (with CS time augmentation)
         P.t_final = P.S_final/P.t_S_divider ; % Time horizon (s) 

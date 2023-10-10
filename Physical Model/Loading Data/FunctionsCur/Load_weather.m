@@ -69,10 +69,6 @@ params = table2struct(Load_Parameters());
     frontWind_RST = R_ST_interpolation(frontWind_RT_raw, params, weather_seconds_RT_raw, weather_cumDist_raw);
     airDensity_RST = R_ST_interpolation(airDensity_RT_raw, params, weather_seconds_RT_raw, weather_cumDist_raw);
     temperature_RST = R_ST_interpolation(temperature_RT_raw, params, weather_seconds_RT_raw, weather_cumDist_raw);
-    
-
-    
-
 %end
 
 % Converts raw weather data tables to race time (RT)
@@ -83,6 +79,8 @@ function table_RT = cut_to_RT(table_raw,Day_Start_indices,Day_End_indices)
     end
 end
 
+% Interpolates the weather data form the raw format to the race space/time
+% format
 function interpolatedData = R_ST_interpolation(data, params, weather_seconds_RT_raw, weather_cumDist_raw)
     [oldTimeGrid, oldSpaceGrid] = meshgrid(weather_seconds_RT_raw, weather_cumDist_raw);
     [newTimeGrid, newSpaceGrid] = meshgrid(params.t_vec, params.S_vec);
