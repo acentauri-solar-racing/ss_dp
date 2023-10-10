@@ -69,7 +69,14 @@ params = table2struct(Load_Parameters());
     frontWind_RST = R_ST_interpolation(frontWind_RT_raw, params, weather_seconds_RT_raw, weather_cumDist_raw);
     airDensity_RST = R_ST_interpolation(airDensity_RT_raw, params, weather_seconds_RT_raw, weather_cumDist_raw);
     temperature_RST = R_ST_interpolation(temperature_RT_raw, params, weather_seconds_RT_raw, weather_cumDist_raw);
+
+    %% Creating Weather struct
+    weather.G = G_RST;
+    weather.frontWind = frontWind_RST;
+    weather.airDensity = airDensity_RST;
+    weather.temp = temperature_RST;
 %end
+
 
 % Converts raw weather data tables to race time (RT)
 function table_RT = cut_to_RT(table_raw,Day_Start_indices,Day_End_indices)
