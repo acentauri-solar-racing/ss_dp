@@ -14,7 +14,7 @@ function P = Load_Parameters()
         P.S_step = 10000; % Distance step size (m)
         P.S_EF_Step = 200; % Distance step size euler forward (m)
         P.S_RW_Step = 10; % Subsampled Route/Weather step (m)
-        P.S_final = 00000; % Final distance (m)
+        P.S_final = 800000; % Final distance (m)
 
         % Battery
         P.ue_E_bat = 1; % Upper end target SoC (%)
@@ -43,11 +43,11 @@ function P = Load_Parameters()
         P.S_RW_vec = P.S_start:P.S_RW_Step:(P.S_final+P.S_step); % Route Space Vector for interpolation
 
         % Loading route
-        P.route = Load_route(P);
+        P.Route = Load_route(P);
 
         % DP Setup Time (with CS time augmentation)
         P.t_final = P.S_final/P.t_S_divider ; % Time horizon (s) 
-        P.CS_location = P.route.CS_cumDist.';
+        P.CS_location = P.Route.CS_cumDist.';
         P.CS_vec = (P.CS_location - P.S_start) / P.S_step;
         P.t_final = P.t_final + 1800*(sum(P.CS_location<=P.S_final,'all')); % CS adapted time horizon (s) 
         P.N_t = round(P.t_final/P.t_divider+1); % Number of discretization points for t state
@@ -83,16 +83,19 @@ function P = Load_Parameters()
         % Battery Parameters
         P.E_bat_max = 5200; % Energy in Battery when fully charged (Wh)
 
-        % Loading Route Data
-        P.Route = Load_Route(P.S_step,P.S_final,P);
+        % Loading Route Data (old function; do not use)
+        % P.Route = Load_Route(P.S_step,P.S_final,P);
+
+        %% Loading weather data
 
         % Loading Weather Data
+        P.wea
         P.Weather = Load_Weather(P);
 
-        % Over-Night Stops
+        % Over-Night Stop Energy
         P.ONS_E = Load_ONS_E(P); % Energy supplied by ONS (Wh)
-        P.ONS_times = [9*3600 9*3600*2 9*3600*3 9*3600*4 9*3600*5];
+        P.ONS_times = (1:7)*9*3600;
 
-        % Control Stops [318, 590, 989, 1195, 1497, 1773, 2184, 2436, 2722, 3027] 
+        % Control Stop Energy
         P.CS_E = Load_CS_E(P); % Energy supplied by CS (Wh)
 end

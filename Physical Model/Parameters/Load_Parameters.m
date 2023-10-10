@@ -83,16 +83,22 @@ function P = Load_Parameters()
         % Battery Parameters
         P.E_bat_max = 5200; % Energy in Battery when fully charged (Wh)
 
-        % Loading Route Data
+        % Loading Route Data (old function; do not use)
         % P.Route = Load_Route(P.S_step,P.S_final,P);
 
+        %% Loading weather data
+
         % Loading Weather Data
+        P.weather = Load_weather(P);
         P.Weather = Load_Weather(P);
+        P.Weather.temp = P.weather.temp;
+        P.Weather.frontWind = P.weather.frontWind;
 
-        % Over-Night Stops
+
+        % Over-Night Stop Energy
         P.ONS_E = Load_ONS_E(P); % Energy supplied by ONS (Wh)
-        P.ONS_times = [9*3600 9*3600*2 9*3600*3 9*3600*4 9*3600*5];
+        P.ONS_times = (1:7)*9*3600;
 
-        % Control Stops [318, 590, 989, 1195, 1497, 1773, 2184, 2436, 2722, 3027] 
+        % Control Stop Energy
         P.CS_E = Load_CS_E(P); % Energy supplied by CS (Wh)
 end
