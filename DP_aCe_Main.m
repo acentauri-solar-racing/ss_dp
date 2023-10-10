@@ -13,12 +13,6 @@ addpath(genpath('.\..\'));
 %% Loading Parameters
 params = table2struct(Load_Parameters());
 
-%% Loading Route
-route.incl = 1;
-route.cumDist = 1;
-route.maxV = 1;
-route.CS = 1;
-
 %% Loading Weather
 weather.g = 1;
 weather.frontWind = 1;

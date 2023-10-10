@@ -4,9 +4,9 @@
 
 %% Main Function
 % P_PV
-function PPV = P_PV(t,params)
+function PPV = P_PV(dpState,params,k)
     % Calculations
-    PPV = params.A_PV .* get_G(t,params) .* params.eta_PV .* params.eta_wire .* params.eta_MPPT .* params.eta_mismatch .* eta_CF(params);
+    PPV = params.A_PV .* get_G(dpState,params,k) .* params.eta_PV .* params.eta_wire .* params.eta_MPPT .* params.eta_mismatch .* eta_CF(params);
 end
 
 
