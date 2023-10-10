@@ -13,10 +13,11 @@
 % 
 % %% Loading Parameters
 % params = table2struct(Load_Parameters());
-
+% weather = Load_wether(params);
+% 
 
 %% Main Function
-function weather = Load_weather(params)
+function weather = Load_wether(params)
     %% Loading Data
     % Import raw weather data
     G_raw_table = readtable('globalIrradiance.csv','Delimiter',',');
@@ -76,6 +77,11 @@ function weather = Load_weather(params)
     weather.frontWind = frontWind_RST;
     weather.airDensity = airDensity_RST;
     weather.temp = temperature_RST;
+    weather.G_raw = G_raw;
+    weather.time_step_raw = weather_seconds_raw(4) - weather_seconds_raw(3);
+    weather.cumDist_raw = weather_cumDist_raw;
+    weather.Day_Start_indices = Day_Start_indices;
+    weather.Day_End_indices = Day_End_indices;
 end
 
 

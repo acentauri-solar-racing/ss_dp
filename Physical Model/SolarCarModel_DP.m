@@ -37,6 +37,7 @@ function [dpState, dpCost, dpIsFeasible, dpOutput] = SolarCarModel_DP(dpState, d
 
     % Implementing CSs
     if(any(dpDisturbance.k-1 == parameters.CS_vec))
+        k_CS = find(dpDisturbance.k-1 == parameters.CS_vec);
         if (parameters.N_E_bat == 1)
             [~,closestIndex] = min(abs(parameters.t_vec-dpState.t(1,1,1,:)));
             CS_Energy(1,1,1,:) = parameters.CS_E.E(closestIndex);
@@ -72,7 +73,7 @@ function [dpState, dpCost, dpIsFeasible, dpOutput] = SolarCarModel_DP(dpState, d
 
     % Feasibility
     V_max = parameters.Route.max_V(dpDisturbance.k);
-    dpIsFeasible = Constraints(dpState,V_max); % rename
+    dpIsFeasible = Constraints(dpState,V_max);
 
     % Output
     dpOutput = [];

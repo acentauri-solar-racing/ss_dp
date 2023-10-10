@@ -89,8 +89,8 @@ function P = Load_Parameters()
         %% Loading weather data
 
         % Loading Weather Data
-        P.weather = Load_weather(P);
         P.Weather = Load_Weather(P);
+        P.weather = Load_weather(P);
         P.Weather.temp = P.weather.temp;
         P.Weather.frontWind = P.weather.frontWind;
 
