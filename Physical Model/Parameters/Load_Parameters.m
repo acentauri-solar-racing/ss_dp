@@ -44,10 +44,15 @@ function P = Load_Parameters()
 
         % Loading route
         P.Route = Load_route(P);
+        if P.Route.CS_cumDist(end) <= P.S_start
+            P.Route.CS_cumDist(end+1) = P.S_final;
+        end
 
         % DP Setup Time (with CS time augmentation)
-        P.t_final = P.S_final/P.t_S_divider ; % Time horizon (s) 
+        P.t_final = (P.S_final-P.S_start)/P.t_S_divider ; % Time horizon (s) 
         P.CS_location = P.Route.CS_cumDist.';
+        logicalIndex = P.CS_location > P.S_start;
+        P.CS_location = P.CS_location(logicalIndex);
         P.CS_vec = (P.CS_location - P.S_start) / P.S_step;
         P.t_final = P.t_final + 1800*(sum(P.CS_location<=P.S_final,'all')); % CS adapted time horizon (s) 
         P.N_t = round(P.t_final/P.t_divider+1); % Number of discretization points for t state
@@ -93,7 +98,6 @@ function P = Load_Parameters()
         P.weather = Load_weather(P);
         P.Weather.temp = P.weather.temp;
         P.Weather.frontWind = P.weather.frontWind;
-
 
         % Over-Night Stop Energy
         P.ONS_times = (1:7)*9*3600;

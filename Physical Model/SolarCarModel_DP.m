@@ -44,7 +44,11 @@ function [dpState, dpCost, dpIsFeasible, dpOutput] = SolarCarModel_DP(dpState, d
 %             CS_Energy(1,1,1,:) = parameters.CS_E.E(closestIndex);
 
             [~,closestIndex] = min(abs(parameters.t_vec-dpState.t(1,1,1,:)));
-            CS_Energy(1,1,1,:) = parameters.CS_E.E(k_CS,closestIndex);
+            if length(parameters.CS_E.E(1,:)) == 1
+                CS_Energy(1,1,1,:) = parameters.CS_E.E(closestIndex,k_CS);
+            else
+                CS_Energy(1,1,1,:) = parameters.CS_E.E(k_CS,closestIndex);
+            end
         else
 %             Old SP Code
 %             CS_Energy = repmat(parameters.CS_E.E,parameters.N_E_bat,1,parameters.N_V,parameters.N_P_mot_el);

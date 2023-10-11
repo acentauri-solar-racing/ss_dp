@@ -13,16 +13,6 @@ addpath(genpath('.\..\'));
 %% Loading Parameters
 params = table2struct(Load_Parameters());
 
-%% Loading Weather
-weather.g = 1;
-weather.frontWind = 1;
-weather.airDensity = 1;
-weather.temperature = 1;
-weather.time = 1;
-weather.cumDist =1;
-
-%% Adding Route and Weather to params
-
 %% Adding Simulation model
 OptPrb = dpaProblem('SolarCarModel_DP',params);
 
@@ -42,7 +32,7 @@ OptPrb.addInputVariable('P_mot_el',params.N_P_mot_el,params.P_mot_el_min,params.
 OptPrb.addDisturbance('k',1:length(params.S_vec));
 
 % Adding final state constraints
-OptPrb.setFinalStateConstraint('E_bat',params.E_bat_max*params.le_E_bat,params.E_bat_max*params.ue_E_bat);
+% OptPrb.setFinalStateConstraint('E_bat',params.E_bat_max*params.le_E_bat,params.E_bat_max*params.ue_E_bat);
 
 % Choosing DP settings
 OptPrb.useMyGrid = false;
