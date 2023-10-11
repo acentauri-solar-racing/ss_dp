@@ -61,14 +61,13 @@ function [dpState, dpCost, dpIsFeasible, dpOutput] = SolarCarModel_DP(dpState, d
     if(parameters.N_E_bat == 1)
         for i = 1:5
             bool = (t_min1 <= parameters.ONS_times(i) & dpState.t > parameters.ONS_times(i));
-            dpState.E_bat = dpState.E_bat + bool * parameters.ONS_E.E(i);
+            [~,closestIndex] = min(abs(mode(t_min1(1,1,1,:))-parameters.ONS_times));
+            dpState.E_bat = dpState.E_bat + bool * parameters.ONS_E.E(dpDisturbance.k,closestIndex);
         end
     else
-        ONS_E_Mat = parameters.weather.ONS_E.E;
-        ONS_E_Nights = ONS_E_Mat(dpDisturbance.k-1,:);
-        
-        ONS_Energy_vec = zeros(1,lenght(parameters.t_vec));
-        ONS_E_M = repmat(ONS_Energy_vec,parameters.N_E_bat,1,parameters.N_V,parameters.N_P_mot_el);
+        ONS_E_Mat = parameters.ONS_E.E_Mat;
+        ONS_E_Nights = ONS_E_Mat(dpDisturbance.k,:);
+        ONS_E_M = repmat(ONS_E_Nights,parameters.N_E_bat,1,parameters.N_V,parameters.N_P_mot_el);
         ONS_E_M = permute(ONS_E_M, [1 3 2 4]);
         dpState.E_bat = dpState.E_bat + ONS_E_M;
     end
@@ -85,8 +84,8 @@ function [dpState, dpCost, dpIsFeasible, dpOutput] = SolarCarModel_DP(dpState, d
 
     % Output
     dpOutput = [];
-    if dpDisturbance.k = 0;
-        k =1;
+    if dpDisturbance.k == 0
+        k = 1;
     end
 
 end

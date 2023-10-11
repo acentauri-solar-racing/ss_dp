@@ -96,8 +96,8 @@ function P = Load_Parameters()
 
 
         % Over-Night Stop Energy
-        P.ONS_E = Load_ONS_E(P); % Energy supplied by ONS (Wh)
         P.ONS_times = (1:7)*9*3600;
+        P.ONS_E = Load_ONS_E(P); % Energy supplied by ONS (Wh)
 
         % Control Stop Energy
         P.CS_E = Load_CS_E(P); % Energy supplied by CS (Wh)

@@ -24,6 +24,25 @@ function ONS_Energy = Load_ONS_E(params)
     ONS_E_rawSpace = params.A_PV .* E_Nights .* params.eta_PV .* params.eta_wire .* params.eta_MPPT .* params.eta_mismatch .* eta_CF(params);
     ONS_Energy.E = interp1(params.weather.cumDist_raw,ONS_E_rawSpace,params.S_vec);
 
+    ONS_Energy.E_Mat = zeros(length(params.S_vec),length(params.t_vec));
+
+    ONS_index_DPT = [];
+    for i = 1:length(params.ONS_times)
+        ONS_time = params.ONS_times(i);
+        [~,closestIndex] = min(abs(params.t_vec-ONS_time));
+        if closestIndex ~= length(params.t_vec)
+            ONS_index_DPT = [ONS_index_DPT closestIndex];
+            ONS_Energy.E_Mat(:,closestIndex) = ONS_Energy.E(:,i);
+        end
+    end
+     
+
+
+
+
+   % [~,closestIndex] = min(abs(params.t_vec-params.ONS_times));
+
+
 
 %     ONS_Energy_vec = zeros(params.N_t,1)';
 % 
