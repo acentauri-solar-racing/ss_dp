@@ -51,6 +51,8 @@ function weather = Load_weather(params)
 
     % Getting seconds and time steps
     weather_seconds_raw = seconds(timeofDay);
+    weather.weather_seconds_raw = weather_seconds_raw;
+    
     % weather_seconds_step_raw = weather_seconds_raw(4)-weather_seconds_raw(3);
 
     % Moving weather raw time to race time

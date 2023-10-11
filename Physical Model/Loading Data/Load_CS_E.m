@@ -31,7 +31,7 @@ function CS_Energy = Load_CS_E(params)
     end
 
     
-    minInSec_net(end) = minInSec_net(end) + 60;
+    minInSec_net(end) = minInSec_net(end) + 61;
     mat2 = interp1(minInSec_net,CS_Gsum_Mat.',params.t_vec).';
     CS_Energy.E = 0.5* params.A_PV .* mat2 .* params.eta_PV .* params.eta_wire .* params.eta_MPPT .* params.eta_mismatch .* eta_CF(params);
 
