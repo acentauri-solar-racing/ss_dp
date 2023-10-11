@@ -39,17 +39,17 @@ function [dpState, dpCost, dpIsFeasible, dpOutput] = SolarCarModel_DP(dpState, d
     if(any(dpDisturbance.k-1 == parameters.CS_vec))
         k_CS = find(dpDisturbance.k-1 == parameters.CS_vec);
         if (parameters.N_E_bat == 1)
+%             [~,closestIndex] = min(abs(parameters.t_vec-dpState.t(1,1,1,:)));
+%             CS_Energy(1,1,1,:) = parameters.CS_E.E(closestIndex);
+
             [~,closestIndex] = min(abs(parameters.t_vec-dpState.t(1,1,1,:)));
-            CS_Energy(1,1,1,:) = parameters.CS_E.E(closestIndex);
-
-%             [~,closestIndex] = min(abs(params.t_vec-dpState.t(1,1,1,:)));
-%             G(1,1,1,:) = params.weather.G(k,closestIndex);
+            CS_Energy(1,1,1,:) = parameters.CS_E.E(k_CS,closestIndex);
         else
-            CS_Energy = repmat(parameters.CS_E.E,parameters.N_E_bat,1,parameters.N_V,parameters.N_P_mot_el);
-            CS_Energy = permute(CS_Energy, [1 3 2 4]);
+%             CS_Energy = repmat(parameters.CS_E.E,parameters.N_E_bat,1,parameters.N_V,parameters.N_P_mot_el);
+%             CS_Energy = permute(CS_Energy, [1 3 2 4]);
 
-%             G = repmat(params.weather.G(k,:),params.N_E_bat,1,params.N_V,params.N_P_mot_el);
-%             G = permute(G, [1 3 2 4]);
+            CS_Energy = repmat(parameters.CS_E.E(k_CS,:),parameters.N_E_bat,1,parameters.N_V,parameters.N_P_mot_el);
+            CS_Energy = permute(CS_Energy, [1 3 2 4]);
         end
         dpState.E_bat = dpState.E_bat + CS_Energy;
         dpState.t = dpState.t + 1800;

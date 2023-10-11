@@ -17,7 +17,7 @@
 % 
 
 %% Main Function
-function weather = Load_wether(params)
+function weather = Load_weather(params)
     %% Loading Data
     % Import raw weather data
     G_raw_table = readtable('globalIrradiance.csv','Delimiter',',');
