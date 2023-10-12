@@ -3,45 +3,88 @@
 % Written for the Semester Thesis of Severin Meyer (18-926-857) in FS23
 
 %% Main Function
-function Weather = Load_Weather(params)
-    % Loading data
-    Weather_Raw = load('WeatherIrradiance.mat').irradiance;
-    Weather_Raw_wt = load('Weather.mat');
-    Weather.Weather_Raw = Weather_Raw;
+function weather = Load_weather(params)
+    %% Loading Data
+    % Import raw weather data
+    G_raw_table = readtable('globalIrradiance.csv','Delimiter',',');
+    frontWind_raw_table = readtable('frontWind.csv','Delimiter',',');
+    airDensity_raw_table = readtable('airDensity.csv','Delimiter',',');
+    temperature_raw_table = readtable('temperature.csv','Delimiter',',');
+
+    % Getting weather data tables by cutting away time and space vectors
+    G_raw = G_raw_table(2:end,2:end);
+    frontWind_raw = frontWind_raw_table(2:end,2:end);
+    airDensity_raw = airDensity_raw_table(2:end,2:end);
+    temperature_raw = temperature_raw_table(2:end,2:end);
     
-    % Getting G Values
-    Weather.t_min = (0:5*9*60+4)*60;
-    Weather.G_min = Weather_Raw.Gtotal([30721:31261, 30721+1*24*60:31261+1*24*60, 30721+2*24*60:31261+2*24*60, 30721+3*24*60:31261+3*24*60, 30721+4*24*60:31261+4*24*60]);
-    for i = 1:length(params.t_vec)
-        [~,closestIndex1] = min(abs(params.t_vec(i)-Weather.t_min));
-        [~,closestIndex2] = min(abs((params.t_vec(i)+params.t_step)-Weather.t_min));
-        Weather.time(i) = params.t_vec(i);
-        Weather.G(i) = mean(Weather.G_min(closestIndex1:closestIndex2));
+    % Getting weather space and time stamps
+    weather_time_raw = G_raw_table(2:end,1);
+    weather_cumDist_raw = table2cell(G_raw_table(1,2:end));
+
+    %% Processing time array
+    % Remove the '+09:30' offset
+    datetimeStringWithoutOffset = strrep(table2cell(weather_time_raw), '+09:30', '');
+
+    % Creating datetime data format
+    datetimeTable = datetime(datetimeStringWithoutOffset,'InputFormat', 'yyyy-MM-dd HH:mm:ss');
+
+    % Getting timeofday array
+    timeofDay = timeofday(datetimeTable);
+
+    % finding the first and last indices of all days in race time (08:00:00 and 17:00:00)
+    Day_Start_indices = find(timeofDay == '08:00:00');
+    Day_End_indices = find(timeofDay == '17:00:00');
+
+    % Getting seconds and time steps
+    weather_seconds_raw = seconds(timeofDay);
+    weather.weather_seconds_raw = weather_seconds_raw;
+    
+    % weather_seconds_step_raw = weather_seconds_raw(4)-weather_seconds_raw(3);
+
+    % Moving weather raw time to race time
+    weather_seconds_RT_raw = weather_seconds_raw(Day_Start_indices(1):Day_End_indices(1))-weather_seconds_raw(Day_Start_indices(1));
+    for i = 2:length(Day_Start_indices)
+        weather_seconds_RT_raw = [weather_seconds_RT_raw; weather_seconds_raw(Day_Start_indices(i):Day_End_indices(i))-weather_seconds_raw(Day_Start_indices(i))+weather_seconds_RT_raw(end)+1];
     end
 
-    % Getting Wind Values
-    dist_windtemp_raw = Weather_Raw_wt.weather.temperature.dist;
-    time_windtemp_raw = (-60*60*3.5:60*60:60*60*12.5);
-    time_windtemp_day = (0:1*60:9*60*60);
-    time_windtemp_fullrace = (0:1*60:45*60*60);
-    Weather.temp = [];
-    Weather.frontWind = [];
+    %% Moving weather data to race time (RT) domain
+    G_RT_raw = cut_to_RT(G_raw,Day_Start_indices,Day_End_indices);
+    frontWind_RT_raw = cut_to_RT(frontWind_raw,Day_Start_indices,Day_End_indices);
+    airDensity_RT_raw = cut_to_RT(airDensity_raw,Day_Start_indices,Day_End_indices);
+    temperature_RT_raw = cut_to_RT(temperature_raw,Day_Start_indices,Day_End_indices);
 
-    for i = 1:length(params.S_vec)
-        % Interpolating temperature and wind data to DP space vector
-        temp_raw = interp1(dist_windtemp_raw,Weather_Raw_wt.weather.temperature.tempMean,params.S_vec(i));
-        wind_raw = interp1(dist_windtemp_raw,[Weather_Raw_wt.weather.wind.frontWind; Weather_Raw_wt.weather.wind.frontWind(end,:)],params.S_vec(i));
-        % Interpolating temperature and wind data to one minute time vector
-        % running one day
-        temp_day = interp1(time_windtemp_raw,temp_raw,time_windtemp_day);
-        frontWind_day = interp1(time_windtemp_raw,wind_raw,time_windtemp_day);
-        % Stacking data to full race
-        temp_fullrace_temp = [temp_day temp_day(2:end) temp_day(2:end) temp_day(2:end) temp_day(2:end)];
-        frontWind_fullrace_temp = [frontWind_day frontWind_day(2:end) frontWind_day(2:end) frontWind_day(2:end) frontWind_day(2:end)];
-        % Interpolating temperature and wind data to DP time vector
-        Weather.temp = [Weather.temp; interp1(time_windtemp_fullrace,temp_fullrace_temp,params.t_vec)];
-        Weather.frontWind = [Weather.frontWind; interp1(time_windtemp_fullrace,frontWind_fullrace_temp,params.t_vec)];
+    %% Getting data into the DP time and space frame
+    weather_cumDist_raw = cell2mat(weather_cumDist_raw);
+    G_RST = R_ST_interpolation(G_RT_raw, params, weather_seconds_RT_raw, weather_cumDist_raw);
+    frontWind_RST = R_ST_interpolation(frontWind_RT_raw, params, weather_seconds_RT_raw, weather_cumDist_raw);
+    airDensity_RST = R_ST_interpolation(airDensity_RT_raw, params, weather_seconds_RT_raw, weather_cumDist_raw);
+    temperature_RST = R_ST_interpolation(temperature_RT_raw, params, weather_seconds_RT_raw, weather_cumDist_raw);
+
+    %% Creating Weather struct
+    weather.G = G_RST;
+    weather.frontWind = frontWind_RST;
+    weather.airDensity = airDensity_RST;
+    weather.temp = temperature_RST;
+    weather.G_raw = G_raw;
+    weather.time_step_raw = weather_seconds_raw(4) - weather_seconds_raw(3);
+    weather.cumDist_raw = weather_cumDist_raw;
+    weather.Day_Start_indices = Day_Start_indices;
+    weather.Day_End_indices = Day_End_indices;
+end
+
+% Converts raw weather data tables to race time (RT)
+function table_RT = cut_to_RT(table_raw,Day_Start_indices,Day_End_indices)
+    table_RT = [];
+    for i = 1:length(Day_Start_indices)
+        table_RT = [table_RT; table_raw(Day_Start_indices(i):Day_End_indices(i),:)];
     end
 end
 
-
+% Interpolates the weather data form the raw format to the race space/time
+% format
+function interpolatedData = R_ST_interpolation(data, params, weather_seconds_RT_raw, weather_cumDist_raw)
+    [oldTimeGrid, oldSpaceGrid] = meshgrid(weather_seconds_RT_raw, weather_cumDist_raw);
+    [newTimeGrid, newSpaceGrid] = meshgrid(params.t_vec, params.S_vec);
+    data = table2array(data);
+    interpolatedData = interp2(oldTimeGrid, oldSpaceGrid, data.', newTimeGrid, newSpaceGrid, 'linear');
+end

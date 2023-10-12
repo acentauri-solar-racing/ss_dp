@@ -4,8 +4,12 @@
 
 %% Main Function
 function CS_Energy = Load_CS_E(params)
+    % Getting indices of CS locations
     CS_Numbers = find(params.CS_location > params.S_start & params.CS_location < params.S_final);
+    % Getting G table in Race Space/Time
     G_RST = params.weather.G;
+
+    % Iterating through CS locations
     for i = 1:length(params.CS_location)
         if any(CS_Numbers == i)
             G_CS_RT = G_RST((params.CS_location(i)-params.S_start)/params.S_step+1,:);
@@ -33,7 +37,6 @@ function CS_Energy = Load_CS_E(params)
         CS_Gsum_Mat(:,i) = CS_Gsum_Mat(:,i-1);
     end
 
-    
     minInSec_net(end) = minInSec_net(end) + 61;
     mat2 = interp1(minInSec_net,CS_Gsum_Mat.',params.t_vec).';
     CS_Energy.E = 0.5* params.A_PV .* mat2 .* params.eta_PV .* params.eta_wire .* params.eta_MPPT .* params.eta_mismatch .* (1 - params.lambda_PV .* (params.temp_PV_Stops - params.temp_STC));
