@@ -45,6 +45,6 @@ OptPrb.solve;
 %% Running forwards simulation
 OptRes = evaluate(OptPrb,'E_bat',params.E_bat_max,'V',params.V_start/3.6,'t',params.t_start);
 
-% save("Full_Race_Improved_Weather_20230625_03.mat",'OptRes','params'); % Full RACE ---
+% save("BWSC2023_20230625.mat",'OptRes','params'); % BWSC 2023 ---
 %% Plotting results
 Plot_Data_DP(OptRes,params.S_vec,params);

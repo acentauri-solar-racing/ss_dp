@@ -81,10 +81,9 @@ function [dpState, dpCost, dpIsFeasible, dpOutput] = SolarCarModel_DP(dpState, d
         ONS_E_Mat = parameters.ONS_E.E_Mat;
         % Getting the row for the current location
         ONS_E_Nights = ONS_E_Mat(dpDisturbance.k,:);
-        % Creating the ONS_E_M matrix in the required DP format
+        % Reformating 
         ONS_E_M = repmat(ONS_E_Nights,parameters.N_E_bat,1,parameters.N_V,parameters.N_P_mot_el);
         ONS_E_M = permute(ONS_E_M, [1 3 2 4]);
-        % Adding Energy to the Battery
         dpState.E_bat = dpState.E_bat + ONS_E_M;
     end
 
