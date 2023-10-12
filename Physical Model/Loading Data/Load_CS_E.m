@@ -36,7 +36,7 @@ function CS_Energy = Load_CS_E(params)
     
     minInSec_net(end) = minInSec_net(end) + 61;
     mat2 = interp1(minInSec_net,CS_Gsum_Mat.',params.t_vec).';
-    CS_Energy.E = 0.5* params.A_PV .* mat2 .* params.eta_PV .* params.eta_wire .* params.eta_MPPT .* params.eta_mismatch .* eta_CF(params);
+    CS_Energy.E = 0.5* params.A_PV .* mat2 .* params.eta_PV .* params.eta_wire .* params.eta_MPPT .* params.eta_mismatch .* (1 - params.lambda_PV .* (params.temp_PV_Stops - params.temp_STC));
 %     Old SP code
 %     CS_Numbers = find(params.CS_location > params.S_start & params.CS_location < params.S_final);
 %     for i = CS_Numbers(1):CS_Numbers(end)
@@ -56,18 +56,6 @@ function CS_Energy = Load_CS_E(params)
 % %             [~,closestIndex] = min(abs(params.t_vec(i)-params.weather.));
 %         end
 %         
-%     end
-
-%     for i = 1:length(params.t_vec)
-%         CS_Energy.t(i) = params.t_vec(i);
-%         [~,closestIndex] = min(abs(params.t_vec(i)-params.Weather.t_min));
-% 
-%         CS_E = 0;
-%         for j = closestIndex:closestIndex+29
-%             CS_E = CS_E + params.A_PV .* params.Weather.G_min(j) .* params.eta_PV .* params.eta_wire .* params.eta_MPPT .* params.eta_mismatch .* eta_CF(params);
-%         end
-% 
-%         CS_Energy.E(i) = CS_E/60;
 %     end
 end
 

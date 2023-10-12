@@ -2,20 +2,6 @@
 % versions
 % Written for the Semester Thesis of Severin Meyer (18-926-857) in FS23
 
-% %% Initialization:
-% clc
-% clear
-% clearvars
-% close all
-% 
-% %% Include Path of idscDPfunction
-% addpath(genpath('.\..\'));
-% 
-% %% Loading Parameters
-% params = table2struct(Load_Parameters());
-% weather = Load_wether(params);
-% 
-
 %% Main Function
 function weather = Load_weather(params)
     %% Loading Data
@@ -85,7 +71,6 @@ function weather = Load_weather(params)
     weather.Day_Start_indices = Day_Start_indices;
     weather.Day_End_indices = Day_End_indices;
 end
-
 
 % Converts raw weather data tables to race time (RT)
 function table_RT = cut_to_RT(table_raw,Day_Start_indices,Day_End_indices)

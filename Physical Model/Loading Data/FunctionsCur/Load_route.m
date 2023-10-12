@@ -2,19 +2,6 @@
 % versions
 % Written for the Semester Thesis of Severin Meyer (18-926-857) in FS23
 
-
-% %% Initialization:
-% clc
-% clear
-% clearvars
-% close all
-% 
-% %% Include Path of idscDPfunction
-% addpath(genpath('.\..\'));
-% 
-% %% Loading Parameters
-% params = table2struct(Load_Parameters());
-
 %% Main Function
 function route = Load_route(params)
     % Import raw route data

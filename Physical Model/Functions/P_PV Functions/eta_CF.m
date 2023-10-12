@@ -4,7 +4,7 @@
 
 %% Main Function
 % eta_CF
-function ECF = eta_CF(params)
+function ECF = eta_CF(dpState,params,k)
     % Calculations
-    ECF = 1 - params.lambda_PV .* (temp_PV() - params.temp_STC);
+    ECF = 1 - params.lambda_PV .* (temp_PV(dpState,params,k) - params.temp_STC);
 end

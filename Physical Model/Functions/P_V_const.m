@@ -13,7 +13,7 @@ end
 % F_aero
 function FA = F_aero(dpState,params,k)
     % Calculations
-    FA = 0.5 .* params.rho .* params.A_aero .* params.C_d .* V_eff_front(dpState,params,k).^2;
+    FA = 0.5 .* rho(dpState,params,k) .* params.A_aero .* params.C_d .* V_eff_front(dpState,params,k).^2;
 end
 
 % F_grade
@@ -41,10 +41,22 @@ function VE = V_eff_front(dpState,params,k)
     % Calculations
      if (params.N_E_bat == 1)
         [~,closestIndex] = min(abs(params.t_vec-dpState.t(1,1,1,:)));
-        V_wind(1,1,1,:) = params.Weather.frontWind(k,closestIndex);
+        V_wind(1,1,1,:) = params.weather.frontWind(k,closestIndex);
      else
-        V_wind = repmat(params.Weather.frontWind(k,:),params.N_E_bat,1,params.N_V,params.N_P_mot_el);
+        V_wind = repmat(params.weather.frontWind(k,:),params.N_E_bat,1,params.N_V,params.N_P_mot_el);
         V_wind = permute(V_wind, [1 3 2 4]);
      end
      VE = dpState.V + V_wind;
+end
+
+% rho
+function rho = rho(dpState,params,k)
+    % Calculations
+     if (params.N_E_bat == 1)
+        [~,closestIndex] = min(abs(params.t_vec-dpState.t(1,1,1,:)));
+        rho(1,1,1,:) = params.weather.airDensity(k,closestIndex);
+     else
+        rho = repmat(params.weather.airDensity(k,:),params.N_E_bat,1,params.N_V,params.N_P_mot_el);
+        rho = permute(rho, [1 3 2 4]);
+     end
 end

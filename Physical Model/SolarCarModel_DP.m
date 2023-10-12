@@ -40,6 +40,7 @@ function [dpState, dpCost, dpIsFeasible, dpOutput] = SolarCarModel_DP(dpState, d
     if(any(dpDisturbance.k-1 == parameters.CS_vec))
         % finding the exact CS we are at in the CS_vec array
         k_CS = find(dpDisturbance.k-1 == parameters.CS_vec);
+
         % Cecking if we are in the backwards or frowards DP step
         if (parameters.N_E_bat == 1)
             % Finding the correct time
