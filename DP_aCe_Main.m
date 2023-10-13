@@ -46,5 +46,6 @@ OptPrb.solve;
 OptRes = evaluate(OptPrb,'E_bat',params.E_bat_max,'V',params.V_start/3.6,'t',params.t_start);
 
 % save("BWSC2023_20230625.mat",'OptRes','params'); % BWSC 2023 ---
+% referenceTime = datetime('14-10-2023 08:00:00', 'Format', 'dd-MM-yyyy HH:mm:ss');
 %% Plotting results
 Plot_Data_DP(OptRes,params.S_vec,params);
