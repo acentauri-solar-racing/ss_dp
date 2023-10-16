@@ -3,8 +3,8 @@ import serial
 ser = serial.Serial('COM8', 4800, timeout=5)
 i = 0
 longitude_dd = 0.0;
-while longitude_dd == 0 and i < 30:
-    # increasing i; if i < 30 -> no fix achieved
+while longitude_dd == 0.0 and i < 30:
+    # increasing i; if i < 30 --> no fix achieved
     i += 1
     
     # Decode the bytes to a string using the correct encoding
@@ -36,9 +36,10 @@ while longitude_dd == 0 and i < 30:
         if longitude_EW == 'W':
             longitude_dd = -longitude_dd;
         
-        # print(type(latitude))
-        latitude_dd = round(latitude_dd, 5)
-        longitude_dd = round(longitude_dd, 5)
+        # Output
+        latitude_dd = round(latitude_dd, 6)
+        longitude_dd = round(longitude_dd, 6)
+        
         print("Latitude_dmm:", latitude)
         print("Longitude_dmm:", longitude)
         print("Latitude_dd:", latitude_dd)
