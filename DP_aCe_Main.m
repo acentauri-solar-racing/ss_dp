@@ -45,7 +45,9 @@ OptPrb.solve;
 %% Running forwards simulation
 OptRes = evaluate(OptPrb,'E_bat',params.E_bat_max,'V',params.V_start/3.6,'t',params.t_start);
 
-% save("BWSC2023_20230625.mat",'OptRes','params'); % BWSC 2023 ---
-% referenceTime = datetime('14-10-2023 08:00:00', 'Format', 'dd-MM-yyyy HH:mm:ss');
+% save("BWSC2023_20231015.mat",'OptRes','params'); % BWSC 2023 ---
+referenceTime = datetime('17-10-2023 08:00:00', 'Format', 'dd-MM-yyyy HH:mm:ss');
+Exporting_Results_CSV(OptRes,referenceTime);
+Exporting_Results_Raw(OptRes,params);
 %% Plotting results
 Plot_Data_DP(OptRes,params.S_vec,params);

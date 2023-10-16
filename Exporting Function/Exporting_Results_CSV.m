@@ -16,11 +16,14 @@ function Exporting_Results_CSV(OptRes,referenceTime)
         end
     end
 %     Var_Names = {'cumDist' 'time' 'optV' 'optSoC'};
-    DateTime_DP = referenceTime + seconds(round(seconds_DP,0));
-    cumDist_DP = OptRes.time.';
-    optV_DP = OptRes.states.V.'*3.6;
-    optSoC_DP = OptRes.states.E_bat.'/params.E_bat_max;
-
-    Results_DP = table(DateTime_DP, cumDist_DP, optV_DP, optSoC_DP);
-    writetable(Results_DP,'Results_DP_Test.csv','Delimiter',',')
+    time = referenceTime + seconds(round(seconds_DP,0));
+    cumDistance = OptRes.time.';
+    velocity = OptRes.states.V.'*3.6;
+    soc = OptRes.states.E_bat.'/params.E_bat_max;
+    Results_DP = table(time, cumDistance, velocity, soc);
+    directory = 'G:\Shared drives\AlphaCentauri\SolarCar_22 23\6. Strategy & Simulation\ss_online_data\DP_optimal\CSV\';
+    currentDateTime = datetime('now');
+    timestamp = datestr(currentDateTime, 'yyyymmdd_HHMMSS');
+    filename = [directory, timestamp, '_DP.csv'];
+    writetable(Results_DP,filename,'Delimiter',',');
 end
