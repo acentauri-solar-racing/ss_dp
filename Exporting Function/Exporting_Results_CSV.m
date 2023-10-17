@@ -3,7 +3,7 @@
 % Written for the Semester Thesis of Severin Meyer (18-926-857) in FS23
 
 %% Main Function
-function Exporting_Results_CSV(OptRes,referenceTime)
+function Exporting_Results_CSV(OptRes,referenceTime,params)
     seconds_DP = round(OptRes.states.t.',0);
     k_night = 0;
 

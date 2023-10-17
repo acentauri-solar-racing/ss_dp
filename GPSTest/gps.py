@@ -4,6 +4,7 @@ ser = serial.Serial('COM8', 4800, timeout=5)
 i = 0
 longitude_dd = 0.0;
 while longitude_dd == 0.0 and i < 30:
+    print(i)
     # increasing i; if i < 30 --> no fix achieved
     i += 1
     
