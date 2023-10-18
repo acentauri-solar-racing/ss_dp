@@ -3,7 +3,7 @@
 % Written for the Semester Thesis of Severin Meyer (18-926-857) in FS23
 
 %% Main Function
-function route = Load_route(params)
+function route = Load_Route(params)
     % Import raw route data
     route_raw = readtable('route_preprocessed.csv');
 

@@ -3,7 +3,7 @@
 % Written for the Semester Thesis of Severin Meyer (18-926-857) in FS23
 
 %% Main Function
-function weather = Load_weather(params)
+function weather = Load_Weather(params)
     %% Loading Data
     % Import raw weather data
     G_raw_table = readtable('globalIrradiance.csv','Delimiter',',');

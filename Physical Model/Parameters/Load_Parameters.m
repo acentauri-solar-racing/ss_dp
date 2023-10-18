@@ -43,7 +43,7 @@ function P = Load_Parameters()
         P.S_RW_vec = P.S_start:P.S_RW_Step:(P.S_final+P.S_step); % Route Space Vector for interpolation
 
         % Loading route
-        P.Route = Load_route(P);
+        P.Route = Load_Route(P);
         % Adding the final position as CS in case there are no others
         % Bug fix, code cant handle no CSs present
         if P.Route.CS_cumDist(end) <= P.S_start
@@ -92,7 +92,7 @@ function P = Load_Parameters()
         P.E_bat_max = 5200; % Energy in Battery when fully charged (Wh)
 
         %% Loading weather data
-        P.weather = Load_weather(P);
+        P.weather = Load_Weather(P);
 
         %% Over-Night Stop Energy
         P.ONS_times = (1:7)*9*3600;
