@@ -14,7 +14,7 @@ function P = Load_Parameters()
         P.S_step = 10000; % Distance step size (m)
         P.S_EF_Step = 200; % Distance step size euler forward (m)
         P.S_RW_Step = 10; % Subsampled Route/Weather step (m)
-        P.S_final = 800000; % Final distance (m) % 3020km max
+        P.S_final = 2000000; % Final distance (m) % 3020km max
 
         % Battery
         P.ue_E_bat = 1; % Upper end target SoC (%)

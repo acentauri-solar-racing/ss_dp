@@ -7,6 +7,9 @@ clear
 clearvars
 close all
 
+%% Getting current DateTime
+currentDateTime = datetime('now');
+
 %% Include Path of idscDPfunction
 addpath(genpath('.\..\'));
 
@@ -46,8 +49,8 @@ OptPrb.solve;
 OptRes = evaluate(OptPrb,'E_bat',params.E_bat_max,'V',params.V_start/3.6,'t',params.t_start);
 
 % save("BWSC2023_20231015.mat",'OptRes','params'); % BWSC 2023 ---
-referenceTime = datetime('17-10-2023 08:00:00', 'Format', 'dd-MM-yyyy HH:mm:ss');
-Exporting_Results_CSV(OptRes,referenceTime,params);
-Exporting_Results_Raw(OptRes,params);
+referenceTime = datetime('19-10-2023 08:00:00', 'Format', 'dd-MM-yyyy HH:mm:ss');
+Exporting_Results_CSV(OptRes,referenceTime,params,currentDateTime);
+Exporting_Results_Raw(OptRes,params,currentDateTime);
 %% Plotting results
 Plot_Data_DP(OptRes,params.S_vec,params);
