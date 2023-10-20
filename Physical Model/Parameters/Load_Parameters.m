@@ -14,28 +14,28 @@ function P = Load_Parameters()
         P.S_step = 10000; % Distance step size (m)
         P.S_EF_Step = 200; % Distance step size euler forward (m)
         P.S_RW_Step = 10; % Subsampled Route/Weather step (m)
-        P.S_final = 3000000; % Final distance (m) % 3020km max
+        P.S_final = 800000; % Final distance (m) % 3020km max
 
         % Battery
         P.ue_E_bat = 1; % Upper end target SoC (%)
         P.le_E_bat = 0.1; % Lower end target SoC (%)
-        P.N_E_bat = 10+1; % Number of discretization points for E_bat state
+        P.N_E_bat = 20+1; % Number of discretization points for E_bat state
 
         % Velocity
         P.V_start = 65; % Initial Velocity (km/h)
-        P.V_max = 90; % Largest possible velocity (km/h)
+        P.V_max = 100; % Largest possible velocity (km/h)
         P.V_min = 50; % Smallest possible velocity (km/h)
         P.N_V = 10+1; % Number of discretization points for V state
 
         % Time
         P.t_start = 0; % Initial time (s)
         P.t_divider = 1000; % Time divider (s)
-        P.t_S_divider = 15; % S divider
+        P.t_S_divider = 20; % S divider
 
         % Input
-        P.P_mot_el_max = 2000; % Largest possible input (W)
+        P.P_mot_el_max = 3000; % Largest possible input (W)
         P.P_mot_el_min = 200; % Smallest possible input (W)
-        P.N_P_mot_el = 15+1; % Number of discretization points for input
+        P.N_P_mot_el = 20+1; % Number of discretization points for input
 
         %% General
         % DP Setup Space
