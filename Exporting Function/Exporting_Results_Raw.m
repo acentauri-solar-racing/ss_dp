@@ -10,8 +10,8 @@ function Exporting_Results_Raw(OptRes,params,currentDateTime)
     filename = [directory, timestamp, '_DP.mat'];
     save(filename,'OptRes','params');
 
-    % Local Backup
-    directory = 'C:\BWSC 2023 Local Backup\DP_optimal\Raw Data\';
-    filename = [directory, timestamp, '_DP.mat'];
-    save(filename,'OptRes','params');
+% %     Local Backup
+%     directory = 'C:\BWSC 2023 Local Backup\DP_optimal\Raw Data\';
+%     filename = [directory, timestamp, '_DP.mat'];
+%     save(filename,'OptRes','params');
 end

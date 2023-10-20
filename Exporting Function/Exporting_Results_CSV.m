@@ -28,8 +28,8 @@ function Exporting_Results_CSV(OptRes,referenceTime,params,currentDateTime)
     filename = [directory, timestamp, '_DP.csv'];
     writetable(Results_DP,filename,'Delimiter',',');
 
-    % Local Backup
-    directory = 'C:\BWSC 2023 Local Backup\DP_optimal\CSV\';
-    filename = [directory, timestamp, '_DP.csv'];
-    writetable(Results_DP,filename,'Delimiter',',');
+%     % Local Backup
+%     directory = 'C:\BWSC 2023 Local Backup\DP_optimal\CSV\';
+%     filename = [directory, timestamp, '_DP.csv'];
+%     writetable(Results_DP,filename,'Delimiter',',');
 end

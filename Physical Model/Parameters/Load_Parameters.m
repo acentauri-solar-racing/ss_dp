@@ -14,28 +14,28 @@ function P = Load_Parameters()
         P.S_step = 10000; % Distance step size (m)
         P.S_EF_Step = 200; % Distance step size euler forward (m)
         P.S_RW_Step = 10; % Subsampled Route/Weather step (m)
-        P.S_final = 2000000; % Final distance (m) % 3020km max
+        P.S_final = 3000000; % Final distance (m) % 3020km max
 
         % Battery
         P.ue_E_bat = 1; % Upper end target SoC (%)
         P.le_E_bat = 0.1; % Lower end target SoC (%)
-        P.N_E_bat = 20+1; % Number of discretization points for E_bat state
+        P.N_E_bat = 10+1; % Number of discretization points for E_bat state
 
         % Velocity
         P.V_start = 65; % Initial Velocity (km/h)
-        P.V_max = 100; % Largest possible velocity (km/h)
+        P.V_max = 90; % Largest possible velocity (km/h)
         P.V_min = 50; % Smallest possible velocity (km/h)
         P.N_V = 10+1; % Number of discretization points for V state
 
         % Time
         P.t_start = 0; % Initial time (s)
         P.t_divider = 1000; % Time divider (s)
-        P.t_S_divider = 24; % S divider
+        P.t_S_divider = 15; % S divider
 
         % Input
-        P.P_mot_el_max = 2600; % Largest possible input (W)
-        P.P_mot_el_min = 100; % Smallest possible input (W)
-        P.N_P_mot_el = 20+1; % Number of discretization points for input
+        P.P_mot_el_max = 2000; % Largest possible input (W)
+        P.P_mot_el_min = 200; % Smallest possible input (W)
+        P.N_P_mot_el = 15+1; % Number of discretization points for input
 
         %% General
         % DP Setup Space
@@ -71,22 +71,22 @@ function P = Load_Parameters()
         P.temp_STC = 25; % Standard-condition temperature (C)
 
         % P_V_const Parameters
-        P.temp_PV_Stops = 40; % PV temperature during stops (C)
-        P.rho = 1.17; % Air density (kg/m3)
+        P.temp_PV_Stops = 35; % PV temperature during stops (C)
+%         P.rho = 1.17; % Air density (kg/m3)
         P.A_aero = 0.85; % Frontal aerodynamic area (m2)
-        P.C_d = 0.09; % Drag coef
-        P.g = 9.8067; % Acceleration of gravity (m/s2)
-        P.C_r = 0.003; % Roll friction coef
+        P.C_d = 0.2171; % Drag coef
+        P.g = 9.81; % Acceleration of gravity (m/s2)
+        P.C_r = 0.00157; % Roll friction coef
         P.N_front = 4; % Number for frontal bear rings
         P.N_rear = 1; % Number for rear bear rings
-        P.T_front = 0.055; % Front wheels bearing friction moment (Nm)
-        P.T_rear = 0.2; % Rear wheels bearing friction moment (Nm)
+        P.T_front = 0.0; % 0.055; % Front wheels bearing friction moment (Nm)
+        P.T_rear = 0.0; % 0.2; % Rear wheels bearing friction moment (Nm)
         P.r_w = 0.2785; % Wheel radius (m)
-        P.mass = 240; % Car mass with driver (kg)
+        P.mass = 264; % Car mass with driver (kg)
 
         % P_mot_mech Parameters
-        P.e_mot = 0.97; % E-motor efficiency
-        P.P_0 = 30; % Idle power (W)
+        P.e_mot = 0.98; % E-motor efficiency
+        P.P_0 = 110; % Idle power (W)
 
         % Battery Parameters
         P.E_bat_max = 5200; % Energy in Battery when fully charged (Wh)

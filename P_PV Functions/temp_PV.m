@@ -13,5 +13,5 @@ function TPV = temp_PV(dpState,params,k)
         ambTemp = repmat(params.weather.temp(k,:),params.N_E_bat,1,params.N_V,params.N_P_mot_el);
         ambTemp = permute(ambTemp, [1 3 2 4]);
     end
-    TPV = 10 + ambTemp; % PV temp (C)
+    TPV = 15 + ambTemp; % PV temp (C)
 end
